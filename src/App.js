@@ -461,7 +461,7 @@ function App() {
               />
             </div>
             <div style={{ flex: '1 1 0', display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 340, paddingLeft: '5rem' }}>
-              <div ref={titleRef} className="main-card-title" style={{ textAlign: 'center', whiteSpace: 'pre-line', textTransform: 'uppercase', fontFamily: 'Italiana, sans-serif', fontSize: '5.4rem', fontWeight: 200, color: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', marginTop: '-3rem' }}>
+              <div ref={titleRef} className="main-card-title" style={{ textAlign: 'center', whiteSpace: 'pre-line', textTransform: 'uppercase', fontFamily: 'Italiana, sans-serif', fontSize: '5.4rem', fontWeight: 200, color: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', marginTop: '4rem' }}>
                 <div className="title-line" style={{ cursor: 'pointer', color: '#fff' }}>Warm lights</div>
                 <div className="title-line" style={{ cursor: 'pointer', color: '#fff' }}>warmer memories.</div>
                 <div style={{ width: '80%', height: '3px', background: '#fff', margin: '1.2rem auto 0 auto', borderRadius: '2px' }}></div>
@@ -471,7 +471,7 @@ function App() {
               </div>
             </div>
           </div>
-          <div style={{ marginTop: '30px', width: '100%' }}>
+          <div style={{ marginTop: '10px', width: '100%', transform: 'translateY(-10%)' }}>
             <ThumbnailCarousel images={carouselImages} active={active} setActive={setActive} />
           </div>
         </div>
