@@ -461,7 +461,7 @@ function App() {
                 <div className="title-line" style={{ cursor: 'pointer', color: '#fff' }}>Warm lights</div>
                 <div className="title-line" style={{ cursor: 'pointer', color: '#fff' }}>warmer memories.</div>
                 <div style={{ width: '80%', height: '3px', background: '#fff', margin: '1.2rem auto 0 auto', borderRadius: '2px' }}></div>
-                <div style={{ fontSize: '1.9rem', color: '#e0c5bb', marginTop: '2.2rem', fontWeight: 400, textTransform: 'none', letterSpacing: '0.02em', fontFamily: 'Poppins, sans-serif' }}>
+                <div style={{ fontSize: '2.2rem', color: '#e0c5bb', marginTop: '2.2rem', fontWeight: 400, textTransform: 'none', letterSpacing: '0.02em', fontFamily: 'Poppins, sans-serif' }}>
                   Where every light tells a story of home.
                 </div>
               </div>
