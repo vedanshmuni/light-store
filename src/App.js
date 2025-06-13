@@ -471,7 +471,7 @@ function App() {
               </div>
             </div>
           </div>
-          <div style={{ marginTop: '10px', width: '100%', transform: 'translateY(-10%)' }}>
+          <div style={{ marginTop: '10px', width: '100%', transform: 'translateY(-15%)' }}>
             <ThumbnailCarousel images={carouselImages} active={active} setActive={setActive} />
           </div>
         </div>
