@@ -257,57 +257,79 @@ function ThumbnailCarousel({ images, active, setActive }) {
   const buffer = 1;
   const renderCount = visibleCount + 2 * buffer; // 7
   const total = images.length;
-  const [offset, setOffset] = React.useState(0);
+  const thumbWidth = 200;
+  const gap = 32;
+  const itemSize = thumbWidth + gap;
   const [animating, setAnimating] = React.useState(false);
-
-  // Get 7 indices: 1 buffer left, 5 visible, 1 buffer right
-  const getIndices = () => {
+  const [slideDir, setSlideDir] = React.useState(0); // -1 for left, 1 for right, 0 for neutral
+  const [displayedIndices, setDisplayedIndices] = React.useState(() => {
     const indices = [];
     const start = active - Math.floor(visibleCount / 2) - buffer;
     for (let i = 0; i < renderCount; i++) {
       indices.push((start + i + total) % total);
     }
     return indices;
-  };
-  const indices = getIndices();
+  });
+
+  // Keep displayedIndices in sync with active if not animating
+  React.useEffect(() => {
+    if (!animating) {
+      const indices = [];
+      const start = active - Math.floor(visibleCount / 2) - buffer;
+      for (let i = 0; i < renderCount; i++) {
+        indices.push((start + i + total) % total);
+      }
+      setDisplayedIndices(indices);
+    }
+  }, [active, animating, total]);
 
   // Animate left/right
   const slide = (dir) => {
     if (animating) return;
-    setOffset(dir);
+    setSlideDir(dir);
     setAnimating(true);
     setTimeout(() => {
-      setActive((prev) => (prev + dir + total) % total);
-      setOffset(0);
+      // After animation, update indices and reset translateX
+      let newActive = (active + dir + total) % total;
+      const indices = [];
+      const start = newActive - Math.floor(visibleCount / 2) - buffer;
+      for (let i = 0; i < renderCount; i++) {
+        indices.push((start + i + total) % total);
+      }
+      setDisplayedIndices(indices);
+      setSlideDir(0);
       setAnimating(false);
+      setActive(newActive);
     }, 400);
   };
 
-  // Calculate translateX so the 1st fully visible image (index 1) is at the left edge
+  // Calculate translateX for animation
   const getTranslateX = () => {
-    const thumbWidth = 260;
-    const gap = 56;
-    const itemSize = thumbWidth + gap;
-    // Shift so the 1st fully visible image (index 1 of 7) is at the left edge
-    return `translateX(${-itemSize * (buffer - offset)}px)`;
+    return `translateX(${slideDir * -itemSize}px)`;
   };
 
   return (
     <div className="thumb-carousel-outer">
       <button className="carousel-arrow left" onClick={() => slide(-1)} disabled={animating}>{'<'}</button>
-      <div className="carousel-track" style={{ transform: getTranslateX() }}>
-        {indices.map((idx, i) => (
-          <div className="thumbnail-wrapper" key={images[idx] + '-' + i}>
-            <div className="thumbnail-card">
-              <img
-                src={process.env.PUBLIC_URL + '/' + images[idx]}
-                alt={`Light thumbnail ${idx + 1}`}
-                className={`light-thumb big-thumb${active === idx ? ' selected' : ''}`}
-                onClick={() => setActive(idx)}
-              />
-            </div>
-          </div>
-        ))}
+      <div style={{ width: `calc(5 * 200px + 4 * 32px)`, height: '460px', overflow: 'hidden', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <div className="carousel-track" style={{ transform: getTranslateX(), transition: animating ? 'transform 0.4s cubic-bezier(.4,1.2,.6,1)' : 'none' }}>
+          {displayedIndices.map((idx, i) => {
+            // Center card index
+            const centerIdx = buffer + Math.floor(visibleCount / 2);
+            return (
+              <div className={`thumbnail-wrapper${i === centerIdx ? ' active' : ''}`} key={images[idx] + '-' + i}>
+                <div className="thumbnail-card">
+                  <img
+                    src={process.env.PUBLIC_URL + '/' + images[idx]}
+                    alt={`Light thumbnail ${idx + 1}`}
+                    className={`light-thumb big-thumb${active === idx ? ' selected' : ''}`}
+                    onClick={() => !animating && setActive(idx)}
+                  />
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
       <button className="carousel-arrow right" onClick={() => slide(1)} disabled={animating}>{'>'}</button>
     </div>
