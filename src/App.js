@@ -308,13 +308,21 @@ function ThumbnailCarousel({ images, active, setActive }) {
     return `translateX(${slideDir * -itemSize}px)`;
   };
 
+  React.useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (animating) return;
+      if (e.key === 'ArrowLeft') slide(-1);
+      if (e.key === 'ArrowRight') slide(1);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [animating, active]);
+
   return (
     <div className="thumb-carousel-outer">
-      <button className="carousel-arrow left" onClick={() => slide(-1)} disabled={animating}>{'<'}</button>
       <div style={{ width: `calc(5 * 200px + 4 * 32px)`, height: '460px', overflow: 'hidden', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <div className="carousel-track" style={{ transform: getTranslateX(), transition: animating ? 'transform 0.4s cubic-bezier(.4,1.2,.6,1)' : 'none' }}>
           {displayedIndices.map((idx, i) => {
-            // Center card index
             const centerIdx = buffer + Math.floor(visibleCount / 2);
             return (
               <div className={`thumbnail-wrapper${i === centerIdx ? ' active' : ''}`} key={images[idx] + '-' + i}>
@@ -331,7 +339,6 @@ function ThumbnailCarousel({ images, active, setActive }) {
           })}
         </div>
       </div>
-      <button className="carousel-arrow right" onClick={() => slide(1)} disabled={animating}>{'>'}</button>
     </div>
   );
 }
@@ -458,6 +465,9 @@ function App() {
                 <div className="title-line" style={{ cursor: 'pointer', color: '#fff' }}>Warm lights</div>
                 <div className="title-line" style={{ cursor: 'pointer', color: '#fff' }}>warmer memories.</div>
                 <div style={{ width: '80%', height: '3px', background: '#fff', margin: '1.2rem auto 0 auto', borderRadius: '2px' }}></div>
+                <div style={{ fontSize: '1.9rem', color: '#e0c5bb', marginTop: '2.2rem', fontWeight: 400, textTransform: 'none', letterSpacing: '0.02em', fontFamily: 'Poppins, sans-serif' }}>
+                  Where every light tells a story of home.
+                </div>
               </div>
             </div>
           </div>

@@ -1,6 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700;800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Italiana&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Florisha&display=swap');
+
+@font-face {
+  font-family: 'Florisha';
+  src: url('./fonts/florishabold-drnv7.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Bruney';
+  src: url('./fonts/ss-bruney.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
 
 /* Color palette */
 :root {
@@ -57,15 +72,15 @@ html {
   z-index: 10;
   min-height: 64px;
   backdrop-filter: none !important;
-  font-family: 'Poppins', sans-serif !important;
+  font-family: 'Bruney', sans-serif !important;
 }
 
 .nav-logo {
-  font-size: 2.8rem !important;
+  font-family: 'Florisha', sans-serif !important;
+  font-size: 4rem !important;
   font-weight: bold;
   color: #fff !important;
   letter-spacing: 1px;
-  font-family: 'Poppins', sans-serif !important;
 }
 
 .nav-right {
@@ -83,14 +98,14 @@ html {
 }
 
 .nav-links a {
-  font-size: 2.1rem !important;
+  font-size: 1.9rem !important;
   color: #fff !important;
   font-weight: 500;
   margin-left: 2.2rem;
   margin-right: 0.2rem;
   text-decoration: none;
   transition: color 0.2s;
-  font-family: 'Poppins', sans-serif !important;
+  font-family: 'Bruney', sans-serif !important;
 }
 
 .nav-links a:hover {
@@ -1017,7 +1032,7 @@ html {
 }
 
 .navbar, .nav-logo, .nav-links a {
-  font-family: 'Poppins', sans-serif !important;
+  font-family: 'Bruney', sans-serif !important;
   font-weight: 100 !important;
   color: #fff !important;
 }
