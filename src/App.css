@@ -939,7 +939,7 @@ html {
 .thumbnail-card {
   width: 100%;
   height: 200px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(28, 28, 28, 0.8) 100%);
+  background: #18181a !important;
   border: 1px solid transparent;
   border-image: linear-gradient(to bottom, rgba(255, 222, 173, 0.2), rgba(255, 222, 173, 0) 80%) 1;
   border-radius: 12px;

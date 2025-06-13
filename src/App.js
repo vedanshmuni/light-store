@@ -252,13 +252,13 @@ function ProductCarousel({ products }) {
 /**
  * Animated thumbnail carousel: only the entering and leaving items animate, not the whole row.
  */
-function ThumbnailCarousel({ images, active, setActive }) {
+function ThumbnailCarousel({ images, active, setActive, rowWidth = 'calc(5 * 200px + 4 * 32px)', cardGap = 32 }) {
   const visibleCount = 5;
   const buffer = 1;
   const renderCount = visibleCount + 2 * buffer; // 7
   const total = images.length;
   const thumbWidth = 200;
-  const gap = 32;
+  const gap = cardGap;
   const itemSize = thumbWidth + gap;
   const [animating, setAnimating] = React.useState(false);
   const [slideDir, setSlideDir] = React.useState(0); // -1 for left, 1 for right, 0 for neutral
@@ -271,7 +271,6 @@ function ThumbnailCarousel({ images, active, setActive }) {
     return indices;
   });
 
-  // Keep displayedIndices in sync with active if not animating
   React.useEffect(() => {
     if (!animating) {
       const indices = [];
@@ -283,13 +282,11 @@ function ThumbnailCarousel({ images, active, setActive }) {
     }
   }, [active, animating, total]);
 
-  // Animate left/right
   const slide = (dir) => {
     if (animating) return;
     setSlideDir(dir);
     setAnimating(true);
     setTimeout(() => {
-      // After animation, update indices and reset translateX
       let newActive = (active + dir + total) % total;
       const indices = [];
       const start = newActive - Math.floor(visibleCount / 2) - buffer;
@@ -303,7 +300,6 @@ function ThumbnailCarousel({ images, active, setActive }) {
     }, 400);
   };
 
-  // Calculate translateX for animation
   const getTranslateX = () => {
     return `translateX(${slideDir * -itemSize}px)`;
   };
@@ -320,8 +316,8 @@ function ThumbnailCarousel({ images, active, setActive }) {
 
   return (
     <div className="thumb-carousel-outer">
-      <div style={{ width: `calc(5 * 200px + 4 * 32px)`, height: '460px', overflow: 'hidden', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <div className="carousel-track" style={{ transform: getTranslateX(), transition: animating ? 'transform 0.4s cubic-bezier(.4,1.2,.6,1)' : 'none' }}>
+      <div style={{ width: rowWidth, height: '460px', overflow: 'hidden', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <div className="carousel-track" style={{ transform: getTranslateX(), transition: animating ? 'transform 0.4s cubic-bezier(.4,1.2,.6,1)' : 'none', gap: `${cardGap}px` }}>
           {displayedIndices.map((idx, i) => {
             const centerIdx = buffer + Math.floor(visibleCount / 2);
             return (
@@ -471,8 +467,8 @@ function App() {
               </div>
             </div>
           </div>
-          <div style={{ marginTop: '10px', width: '100%', transform: 'translateY(-15%)' }}>
-            <ThumbnailCarousel images={carouselImages} active={active} setActive={setActive} />
+          <div style={{ marginTop: '10px', width: 'calc(6 * 200px + 5 * 48px)', transform: 'translateY(-15%)', overflow: 'hidden', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <ThumbnailCarousel images={carouselImages} active={active} setActive={setActive} rowWidth={'calc(6 * 200px + 5 * 48px)'} cardGap={88} />
           </div>
         </div>
       </section>
